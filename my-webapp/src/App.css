@@ -1,0 +1,291 @@
+@font-face {
+  font-family: 'Lora';
+  src: local('Lora'), url('../public/Lora-VariableFont_wght.ttf') format('truetype');
+}
+
+
+body {
+  font-family: 'Lora';
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+button {
+  margin-top: 5px;
+  padding: 10px;
+  font-family: 'Lora';
+  font-size: 16px;
+
+  background-color: transparent;
+  border: 10px solid #C0B9DD;
+
+  color: #011627;
+  font-weight: 600;
+  border-radius: 12px;
+  border: 2px solid #C0B9DD; /* Added border style */
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #8C7B9E; 
+  color: #fff;
+  border-color: #8C7B9E; 
+}
+
+button:active {
+  background-color: #5C486F;
+  color: #fff; 
+  border-color: #5C486F;
+}
+
+h3, h4 {
+  margin-bottom: 0;
+}
+
+nav {
+  border-bottom: 4px solid #bbb6bf; 
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #F7F4EA;
+  z-index: 1000; /* Ensures the nav bar is above other elements */
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333; /* Dark text color */
+  font-weight: bold;
+  padding: 24px 32px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  background: #DED9E2;
+  color: #011627;
+}
+
+
+footer {
+  width: 100%;
+  height: 60px;
+  border-top: 2px solid #bbb6bf;
+  text-align: center;
+  background: #F7F4EA;
+
+
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  z-index: 10;
+
+  clear: both;
+  margin-top: auto;
+}
+
+
+#page-body {
+  max-width: 700px;
+  margin: auto;
+  padding-top: 72px;
+}
+
+.article-list-item {
+  text-decoration: none;
+  color: #333; /* Dark text color */
+  padding: 16px 0 0 0;
+  transition: color 0.3s ease;
+}
+
+.article-list-item p {
+  padding-bottom: 32px;
+  border-bottom: 2px solid #ddd; /* Light gray border color */
+}
+
+.article-list-item:hover {
+  color: #504746;
+}
+
+#add-comment-form {
+  border-bottom: 2px solid #ddd; /* Light gray border color */
+  padding: 16px;
+}
+
+#add-comment-form h3 {
+  margin-bottom: 16px;
+}
+
+input, textarea {
+  display: block;
+  width: 75%;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: 'Lora';
+  font-size: 18px;
+  border: 2px solid #ddd; /* Light gray border color */
+  margin-bottom: 16px;
+}
+
+.button-and-link-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: left; /* Centers the items horizontally */
+}
+
+
+.link {
+  margin-top: 15px;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  width: 75px;
+}
+
+.create-account-button {
+  width: 150px;
+}
+
+
+.error {
+  padding: 8px;
+  border-radius: 10px;
+  background-color: #be91ad; /* Red color, you can change it */
+  color: white;
+}
+
+
+#upvotes-section button, p {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+}
+
+.comment {
+  border-bottom: 2px solid #ddd; /* Light gray border color */
+  padding: 16px;
+  margin-left: -15px;
+}
+
+.nav-right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+
+.nav-left {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
+.logo {
+  width: 50px;
+}
+
+
+#add-comment-form {
+  margin-left: -20px;
+}
+
+.margin-div {
+  margin-bottom: 75px;
+}
+
+.heading {
+  font-size: 75px;
+  width: 80%;
+}
+
+
+.subheading {
+  width: 750px;
+}
+
+.big-button {
+  width: 200px;
+  height: 50px;
+}
+
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 75vh;
+}
+
+.parent-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+
+.scrapbook {
+  margin-top: 10%;
+}
+
+.article-textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  width: 100%;
+  resize: none; 
+  padding-bottom: 30px;
+
+  overflow: hidden;
+}
+
+.article-titlearea {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  resize: none; 
+  margin-bottom: -10px;
+
+  overflow: hidden;
+
+  color: #000; 
+  font-size: 30px;
+  font-style: bold;
+}
+
+.article-titlearea::placeholder {
+  color: #000;
+  font-size: 30px;
+  font-style: bold;
+}
+
+
+.content-wrap {
+  margin-bottom: 5rem;    /* Footer height */
+}
+
+.allButFooter {
+  min-height: calc(100vh - 40px);
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.41d39e6c.css",
+    "main.js": "/static/js/main.ef5b9848.js",
+    "static/js/787.e3b5e78c.chunk.js": "/static/js/787.e3b5e78c.chunk.js",
+    "static/media/Lora-VariableFont_wght.ttf": "/static/media/Lora-VariableFont_wght.3a653a05dd1cd5925a30.ttf",
+    "index.html": "/index.html",
+    "main.41d39e6c.css.map": "/static/css/main.41d39e6c.css.map",
+    "main.ef5b9848.js.map": "/static/js/main.ef5b9848.js.map",
+    "787.e3b5e78c.chunk.js.map": "/static/js/787.e3b5e78c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.41d39e6c.css",
+    "static/js/main.ef5b9848.js"
+  ]
+}
