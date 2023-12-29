@@ -7,9 +7,10 @@
       "install-server": "cd my-webapp-backend && npm install",
       "start-server": "cd my-webapp-backend && npm run dev",
       "install-client": "cd my-webapp && npm install",
+      "build-client": "cd my-webapp && npm run build",
       "start-client": "cd my-webapp && npm start"
     },
     "keywords": [],
     "author": "",
-    "license": "MIT"
+    "license": "ISC"
   }
