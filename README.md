@@ -1,4 +1,4 @@
-# Material Rescaler
+# The Collection
 
 ## Setup
 
