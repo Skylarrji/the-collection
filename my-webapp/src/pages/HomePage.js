@@ -1,4 +1,4 @@
-// import Typed from 'react-typed';
+import Typed from 'react-typed';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -9,7 +9,7 @@ const HomePage = () => {
         <div className="parent-container">
         <div className="child-left">
             <h1 className="heading">A place where anyone can share anything.           
-                {/* <Typed
+                <Typed
                 loop
                 typeSpeed={75}
                 backSpeed={50}
@@ -22,7 +22,7 @@ const HomePage = () => {
                 showCursor
                 cursorChar="|"
                 smartBackspace={false}
-                /> */}
+                />
             </h1>
             <p className="subheading">
                 Explore a world of possibilities – all while sharing and discovering anything you love.
