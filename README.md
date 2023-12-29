@@ -38,6 +38,7 @@ Enter the following command:
 ![Home Page](image.png)
 ![Article Creation Page](image-1.png)
 ![Articles Page](image-2.png)
+![Article Page](image-3.png)
 
 # Project Status 🚧
 This project is currently in development, so stay tuned for new features!
