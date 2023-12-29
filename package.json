@@ -1,0 +1,15 @@
+{
+    "name": "my-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "install-server": "cd my-webapp-backend && npm install",
+      "start-server": "cd my-webapp-backend && npm run dev",
+      "install-client": "cd my-webapp && npm install",
+      "start-client": "cd my-webapp && npm start"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT"
+  }
