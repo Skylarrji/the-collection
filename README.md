@@ -1,4 +1,4 @@
-# The Collection
+# The Collection 📖
 
 # Purpose 📝
 Want to be able to share your ideas freely with others? Then visit The Collection, a webapp similarly designed to popular sites such as Medium and Reddit where users can not only post articles that represent who they are and what they're interested in, but also upvote and comment on other people's articles as well!
