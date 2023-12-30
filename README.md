@@ -35,7 +35,7 @@ Enter the following command:
 3. Feel free to create your own articles or interact with the community by upvoting and commenting.
 
 # Photos 📷
-![Home Page](https://github.com/Skylarrji/the-collection/assets/72311728/2da3f3ec-3f3f-44a8-aef7-f3e7f629884b)
+![Home Page](image.png)
 ![Article Creation Page](image-1.png)
 ![Articles Page](image-2.png)
 ![Article Page](image-3.png)
