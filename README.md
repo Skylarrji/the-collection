@@ -1,14 +1,14 @@
 # The Collection 📖
 
 # Purpose 📝
-Want to be able to share your ideas freely with others? Then visit The Collection, a webapp similarly designed to popular sites such as Medium and Reddit where users can not only post articles that represent who they are and what they're interested in, but also upvote and comment on other people's articles as well!
+Want to be able to share your ideas freely with others? Then visit The Collection, a web app inspired by popular sites such as Medium and Reddit where users can not only post articles that represent who they are and what they're interested in, but also upvote and comment on other people's articles as well!
 
 # Features 🖋️
-- **User Authentication:** Users can create and login to their accounts using an email address.
-- **Article Addition + Removal:** Users can create new articles and delete them using the webapp's interactive interface.
+- **User Authentication:** Users can create and log into their accounts using an email address.
+- **Article Addition, Editing + Removal:** Users can create new articles, edit and delete them using the web app's interactive interface.
 - **Upvoting:** Users can upvote and undo their upvote on articles they like (or later dislike).
 - **Commenting:** Users can add and delete comments to all articles in the database.
-- **Interface:** The webapp provides a visually appealing and simple layout to allow ease of use, such as the screen resizing dynamically when a new article is being written with invisible text input boxes as well as an animated typewriter home page. 
+- **Interface:** The web app provides a visually appealing and simple layout to allow ease of use, such as the screen resizing dynamically when a new article is being written with invisible text input boxes as well as an animated typewriter home page. 
 
 # Technologies Used 🛠️
 - **Frontend:** React
@@ -17,7 +17,7 @@ Want to be able to share your ideas freely with others? Then visit The Collectio
 - **User Authentication:** Firebase
 
 # Installation 📋
-To run The Collection locally, first clone this repository using [this http link.](https://github.com/Skylarrji/the-collection.git)
+To run The Collection locally, first, clone this repository using [this HTTP link.](https://github.com/Skylarrji/the-collection.git)
 
 Then, open the cloned repository on VSCode and open two terminals:
 
