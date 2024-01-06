@@ -5,6 +5,7 @@ import useUser from '../hooks/useUser';
 const AddCommentForm = ({ articleName, onArticleUpdated }) => {
     const [name, setName] = useState(''); // state name is initially set to '', can be updated by calling the setName function
     const [commentText, setCommentText] = useState(''); // state commentText is initially set to '', can be updated by calling the commentText function
+    const [isAlertVisible, setIsAlertVisible] = useState(false);    
     const { user } = useUser();
 
     const addComment = async () => { // gets triggered when comment form is submitted
@@ -21,6 +22,12 @@ const AddCommentForm = ({ articleName, onArticleUpdated }) => {
         onArticleUpdated(newArticleInfo); // adds the new comment to the article page
         setName('');
         setCommentText(''); // resets the name and comment text to empty
+
+        // display notification when comment has been successfully submitted
+        setIsAlertVisible(true);
+        setTimeout(() => {
+        setIsAlertVisible(false);
+        }, 2000);
     }
 
     return (
@@ -33,7 +40,7 @@ const AddCommentForm = ({ articleName, onArticleUpdated }) => {
                 onChange={e => setCommentText(e.target.value)} // changes the component's state live as the user fills out their comment based on onChange e (event)
                 rows="4" 
                 cols="50" />
-            <button onClick={addComment}>Add Comment!</button>
+            <button onClick={addComment}>{!isAlertVisible ? "Add Comment!" : "Comment Successfully Added!"}</button>
         </div>
     )
 }

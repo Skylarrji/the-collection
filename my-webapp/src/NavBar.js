@@ -17,11 +17,12 @@ const NavBar = () => {
                 <li>
                     <Link to="/">Home</Link> {/* the Link component provided by react-router-dom allows for link navigation to the specified path as a prop when the inner text is clicked */}
                 </li>
+                { user ? <li> <Link to="/my-articles">My Articles</Link> </li> : <></>}
                 <li>
-                    <Link to="/about">About</Link> 
+                    <Link to="/add-article">Create an Article</Link> 
                 </li>
                 <li>
-                    <Link to="/articles">Articles</Link> 
+                    <Link to="/articles">All Articles</Link> 
                 </li>
             </ul>
 

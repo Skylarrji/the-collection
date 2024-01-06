@@ -8,7 +8,7 @@ const HomePage = () => {
     <>
         <div className="parent-container">
         <div className="child-left">
-            <h1 className="heading">A place where anyone can share anything.           
+            <h1 className="heading">A place where anyone can share&nbsp;           
                 <Typed
                 loop
                 typeSpeed={75}

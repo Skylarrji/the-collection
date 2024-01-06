@@ -22,12 +22,16 @@ To run The Collection locally, first clone this repository using [this http link
 Then, open the cloned repository on VSCode and open two terminals:
 
 ### Terminal #1 (Frontend)
-Enter the following command:
-`cd my-webapp && npm i && npm start`
+Enter the following commands:
+- `cd my-webap`
+- `npm i` 
+- `npm start`
 
 ### Terminal #2 (Backend)
-Enter the following command:
-`cd my-webapp-backend && npm i && npm run dev`
+Enter the following commands:
+- `cd my-webapp-backend` 
+- `npm i` 
+- `npm run dev`
 
 # Usage 💻
 1. [Visit this website.](the-collection-m5s0.onrender.com/)

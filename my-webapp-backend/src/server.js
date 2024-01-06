@@ -4,6 +4,7 @@ import admin from 'firebase-admin';
 import express from 'express';
 import 'dotenv/config';
 import { db, connectToDb } from './db.js';
+import { ObjectId } from 'mongodb';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -18,7 +19,7 @@ admin.initializeApp({ // tells firebase admin what credentials to use to connect
 });
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // takes json data that is defined as the request body on postman and makes it available for the endpoint to reference 
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.get(/^(?!\/api).+/, (req, res) => {
@@ -43,11 +44,11 @@ app.use(async (req, res, next) => { // gets run before the other endpoints below
     next(); // allows other endpoints below to be available for use
 });
 
-// returns an array of all the articles
+// returns an array of all the articles in the database
 app.get('/api/articles', async (req, res) => {
     const { uid } = req.user;
 
-    const articles = await db.collection('articles').find({}).toArray();
+    const articles = await db.collection('articles').find({}).toArray(); // asynchronous code (pauses until promise condition is approved)
 
     if (articles) {
         res.json(articles);
@@ -58,22 +59,23 @@ app.get('/api/articles', async (req, res) => {
     }
 });
 
+// GETTING THE APPROPRIATE ARTICLE USING THE URL LINK ENDPOINT
 // returns the updated article info
-app.get('/api/articles/:name', async (req, res) => {
-    const { name } = req.params;
+app.get('/api/articles/:articleId', async (req, res) => {
+    const { articleId } = req.params;
     const { uid } = req.user;
 
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) }); // isolates the article that matches the articleId parameter using the mongodb query syntax
 
     if (article) {
         const upvoteIds = article.upvoteIds || []; // set the upvoteId property to be an empty array if the property doesn't exist
         article.canUpvote = uid && !upvoteIds.includes(uid); // checks whether or not the user is able to upvote based on whether or not the user has upvoted before (i.e. whether its id is in the upvoteIds array)
 
-        res.json(article);
+        res.json(article); // use res.json to return a json obj
     } 
     
     else {
-        res.sendStatus(404);
+        res.sendStatus(404); // return a 404 error if article is not found
     }
 });
 
@@ -88,25 +90,25 @@ app.use((req, res, next) => { // this gets run before the upvote/comment endpoin
     }
 });
 
+// update upvote endpoint
+app.put('/api/articles/:articleId/upvote', async (req, res) => { // updates the upvotes property of the associated article (PUT req)
+    const { articleId } = req.params; // equivalent of const articleId = req.params.articleId;
+    const { uid } = req.user; 
 
-app.put('/api/articles/:name/upvote', async (req, res) => {
-    const { name } = req.params;
-    const { uid } = req.user;
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
 
-    const article = await db.collection('articles').findOne({ name });
-
-    if (article) {
+    if (article) { // found the article
         const upvoteIds = article.upvoteIds || []; // set the upvoteId property to be an empty array if the property doesn't exist
         const canUpvote = uid && !upvoteIds.includes(uid); // checks whether or not the user is able to upvote based on whether or not the user has upvoted before (i.e. whether its id is in the upvoteIds array)
     
         if (canUpvote) {
-            await db.collection('articles').updateOne({ name }, {
+            await db.collection('articles').updateOne({ _id: new ObjectId(articleId) }, {
                 $inc: { upvotes: 1 }, // increments the upvotes field of the object whose name is equal to the name parameter by 1 IN THE ACTUAL MONGODB DATABASE
                 $push: { upvoteIds: uid }, // add the uid from the list of upvoted user ids
             });
         }
 
-        const updatedArticle = await db.collection('articles').findOne({ name });
+        const updatedArticle = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
         res.json(updatedArticle); // when a PUT request is requested, return the updated article itself to the front end
     }
 
@@ -117,24 +119,24 @@ app.put('/api/articles/:name/upvote', async (req, res) => {
 
 
 // remove upvote endpoint
-app.put('/api/articles/:name/remove-upvote', async (req, res) => {
-    const { name } = req.params;
+app.put('/api/articles/:articleId/remove-upvote', async (req, res) => {
+    const { articleId } = req.params;
     const { uid } = req.user;
 
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
 
     if (article) {
         const upvoteIds = article.upvoteIds || []; // set the upvoteId property to be an empty array if the property doesn't exist
         const canUpvote = uid && !upvoteIds.includes(uid); // checks whether or not the user is able to upvote based on whether or not the user has upvoted before (i.e. whether its id is in the upvoteIds array)
     
         if (!canUpvote) {
-            await db.collection('articles').updateOne({ name }, {
+            await db.collection('articles').updateOne({ _id: new ObjectId(articleId) }, {
                 $inc: { upvotes: -1 }, // decrements the upvotes field of the object whose name is equal to the name parameter by 1 IN THE ACTUAL MONGODB DATABASE
                 $pull: { upvoteIds: uid }, // remove the uid from the list of upvoted user ids
             });
         }
 
-        const updatedArticle = await db.collection('articles').findOne({ name }); // load the updated article locally
+        const updatedArticle = await db.collection('articles').findOne({ _id: new ObjectId(articleId) }); // load the updated article locally
         res.json(updatedArticle); // when a PUT request is requested, return the updated article itself to the front end
     }
 
@@ -145,46 +147,102 @@ app.put('/api/articles/:name/remove-upvote', async (req, res) => {
 
 
 // add new comment endpoint
-app.post('/api/articles/:name/comments', async (req, res) => {
-    const { name } = req.params;
-    const { text } = req.body;
+app.post('/api/articles/:articleId/comments', async (req, res) => {
+    const { articleId } = req.params;
+    const { text } = req.body; // fetches th text values from the body object that came with the request
     const { email } = req.user;
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) }); 
 
     if (article) {
         const commentCount = article.comments.length;
 
-        await db.collection('articles').updateOne({ name }, {
-            $push: { comments: { commentId: commentCount, postedBy: email, text } },
+        await db.collection('articles').updateOne({ _id: new ObjectId(articleId) }, {
+            $push: { comments: { commentId: commentCount, postedBy: email, text } }, // adds a new object to the comments array in the database
         });
-
         res.json(article);
-    } else {
+    } 
+    
+    else {
         res.send('That article doesn\'t exist!');
     }
 });
 
 
+// add new article endpoint
+app.post('/api/add-article', async (req, res) => {
+    const { name, upvotes, comments, upvoteIds, content, title } = req.body;
+    const { email } = req.user;
+    await db.collection('articles').insertOne( {
+        postedBy: email,
+        name: name,
+        upvotes: upvotes,
+        comments: comments,
+        upvoteIds: upvoteIds,
+        content: content,
+        title: title
+    } );
+    res.json("article succesfully added");
+});
+
+// edit an existing article endpoint
+app.put('/api/edit-article/:articleId', async (req, res) => {
+    const { email } = req.user;
+    const { content, title } = req.body;
+    const { articleId } = req.params;
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
+
+    if (article.postedBy === email) { // can only edit if the user is the owner of the article
+        await db.collection('articles').updateOne({ _id: new ObjectId(articleId) }, {
+            $set: { content: content, title: title  },
+        });
+
+        res.json("article successfully modified");
+    }
+
+    else {
+        res.json("cannot edit the article");
+    }
+});
+
 // delete comment endpoint
-app.delete('/api/articles/:name/comments/:commentId', async (req, res) => {
-    const { name, commentId } = req.params;
+app.delete('/api/articles/:articleId/comments/:commentId', async (req, res) => {
+    const { articleId, commentId } = req.params;
     const { email } = req.user;
 
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
 
     if (article) {
         var comments_arr = article.comments; 
         comments_arr.splice(commentId, 1);
 
-        await db.collection('articles').updateOne({ name }, { 
+        await db.collection('articles').updateOne({ _id: new ObjectId(articleId) }, { 
             $set: { comments :  comments_arr}, 
         
         });
 
         res.json(article);
-    } else {
+    } 
+    
+    else {
         res.send('That article doesn\'t exist!');
     }
+});
+
+// delete article endpoint
+app.delete('/api/articles/:articleId', async (req, res) => {
+    const { articleId } = req.params;
+
+    const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
+
+    if (article) {
+        await db.collection('articles').deleteOne({ _id: new ObjectId(articleId) });
+        res.json(article);
+    }
+
+    else {
+        res.send('That article doesn\'t exist!');
+    }
+
 });
 
 
@@ -197,29 +255,6 @@ connectToDb(() => {
     });
 })
 
-
-// import express from 'express';
-// import { MongoClient } from 'mongodb';
-// import { db, connectToDb } from './db.js';
-
-// // temporary database
-// // let articlesInfo = [{
-// //     name: 'learn-react',
-// //     upvotes: 0,
-// //     comments: [],
-// // }, {
-// //     name: 'learn-node',
-// //     upvotes: 0,
-// //     comments: [],
-// // }, {
-// //     name: 'mongodb',
-// //     upvotes: 0,
-// //     comments: [],
-// // }]
-
-// const app = express();
-// app.use(express.json()); /* takes json data that is defined as the request body on postman and makes it available for the endpoint to reference */
-
 // /* initial examples of just beginning to work with express */
 // // app.post('/hello', (req, res) => { /* res stands for result */
 // //     console.log(req.body); /* req.body returns the json object as permitted on app.use(express.json()); */
@@ -230,108 +265,3 @@ connectToDb(() => {
 // //     const name = req.params.name; /* req.params returns an object containing of the url parameters in '/hello/:name' and their values (e.g. in this example, when on localhost:8000/skylar,, req.params = { name: 'skylar' }) */
 // //     res.send(`hello ${name}!`) /* when on localhost:8000/skylar, the endpoint returns "hello skylar!" (MAKE SURE TO USE BACKTICKS AROUND THE STR OR ELSE THE ${name} WILL NOT BE EXTRACTED) */
 // // });
-
-
-// // GETTING THE APPROPRIATE ARTICLE USING THE URL LINK ENDPOINT
-// app.get('/api/articles/:name', async(req, res) => {
-//     const { name } = req.params;
-
-//     const client = new MongoClient('mongodb://127.0.0.1:27017'); // fetches the mongodb client using the url of the mongodb database
-//     await client.connect(); // asynchronous code (pauses until promise condition is approved)
-
-//     const db = client.db('react-blog-db'); // references actual database on mongodb for the webapp
-
-//     const article = await db.collection('articles').findOne({ name }); // isolates the article that matches the name parameter using the mongodb query syntax
-
-//     if (article) {
-//         res.json(article); // use res.json to return a json obj
-//     }
-
-//     else {
-//         res.sendStatus(404); // return a 404 error if article is not found
-//     }
-
-// });
-
-
-// // UPVOTE ENDPOINT FEATURE
-// app.put('/api/articles/:name/upvote', async(req, res) => { // updates the upvotes property of the associated article (PUT req)
-//     const { name } = req.params; // equivalent of const name = req.params.name;
-
-//     const client = new MongoClient('mongodb://127.0.0.1:27017');
-//     await client.connect();
-
-//     const db = client.db('react-blog-db');
-//     await db.collection('articles').updateOne({ name }, {
-//         $inc: { upvotes: 1}, // increments the upvotes field of the object whose name is equal to the name parameter by 1 IN THE ACTUAL MONGODB DATABASE
-//         // $set: { upvotes: 100 }, // sets the upvotes field to 100 (not using)
-//     });
-
-//     const article = await db.collection('articles').findOne({ name }); // load the updated article locally
-//     if (article) { // checks if the article actually exists
-//         res.send(`The ${name} article now has ${article.upvotes} upvotes :D`); // wrap variables in $() to transform its value into a string
-//     }
-
-//     else {
-//         res.send('That article doesn\'t exist'); // use a backslash to parse the ' in doesn't
-//     }
-
-//     // CODE BELOW IS OBSOLETE (REFERENCES OLD TEMPORARY ARRAY)
-//     // const article = articlesInfo.find(a => a.name === name); // find the relevant article in the articlesInfo database using the name parameter (references to old temp database)
-//     // if (article) { // checks if the article actually exists
-//     //     article.upvotes += 1;
-//     //     res.send(`The ${name} article now has ${article.upvotes} upvotes :D`); // wrap variables in $() to transform its value into a string
-//     // }
-
-//     // else {
-//     //     res.send('That article doesn\'t exist'); // use a backslash to parse the ' in doesn't
-//     // }
-
-// });
-
-
-// // COMMENT ENDPOINT FEATURE
-// app.post('/api/articles/:name/comments', async(req, res) => {
-//     const { name } = req.params;
-//     const { postedBy, text } = req.body; // fetches the postedBy and text values from the body object that came with the request
-
-//     const client = new MongoClient('mongodb://127.0.0.1:27017');
-//     await client.connect();
-
-//     const db = client.db('react-blog-db');
-//     await db.collection('articles').updateOne({ name }, {
-//         $push: { comments: { postedBy, text } }, // adds a new object to the comments array in the database
-//     });
-//     const article = await db.collection('articles').findOne({ name }); // load the updated article locally
-
-//     if (article) {
-//         res.send(article.comments);
-//     }
-
-//     else {
-//         res.send('That article doesn\'t exist'); 
-//     }
-
-//     // CODE BELOW IS OBSOLETE (REFERENCES OLD TEMPORARY ARRAY)
-//     // const article = articlesInfo.find(a => a.name === name); // references to old temp database 
-//     // if (article) {
-//     //     article.comments.push({ postedBy, text }); // adds a new object to the comments array in the database
-//     //     res.send(article.comments);
-//     // }
-
-//     // else {
-//     //     res.send('That article doesn\'t exist'); 
-//     // }
-
-// });
-
-// app.listen(3000, () => {
-//     console.log('Server is listening on port 3000');
-// });
-
-// // connectToDb(() => {
-// //     console.log('Successfully connected to database!');
-// //     app.listen(8000, () => {
-// //         console.log('Server is listening on port 8000');
-// //     });
-// // })

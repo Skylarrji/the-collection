@@ -17,6 +17,7 @@ body {
 
 button {
   margin-top: 5px;
+  margin-right: 10px;
   padding: 10px;
   font-family: 'Lora';
   font-size: 16px;
@@ -29,6 +30,10 @@ button {
   border-radius: 12px;
   border: 2px solid #C0B9DD; /* Added border style */
   cursor: pointer;
+}
+
+.buttons {
+  display: flex;
 }
 
 button:hover {
@@ -45,6 +50,11 @@ button:active {
 
 h3, h4 {
   margin-bottom: 0;
+}
+
+h4 {
+  margin-top: 0px;
+  font-weight: normal;
 }
 
 nav {
@@ -114,13 +124,18 @@ footer {
   transition: color 0.3s ease;
 }
 
-.article-list-item p {
-  padding-bottom: 32px;
-  border-bottom: 2px solid #ddd; /* Light gray border color */
-}
-
 .article-list-item:hover {
   color: #504746;
+}
+
+.article-parent-container {
+  text-align: left;
+  margin-left: -10px;
+}
+
+.article-child-container {
+  display: inline-block;
+  margin: 10px;
 }
 
 #add-comment-form {
@@ -172,7 +187,7 @@ input, textarea {
 .error {
   padding: 8px;
   border-radius: 10px;
-  background-color: #be91ad; /* Red color, you can change it */
+  background-color: #be91ad; 
   color: white;
 }
 
@@ -212,7 +227,11 @@ input, textarea {
 }
 
 .margin-div {
-  margin-bottom: 75px;
+  padding-bottom: 50px;
+}
+
+.margin-div-2 {
+  margin-bottom: 15px;
 }
 
 .heading {
@@ -249,6 +268,7 @@ input, textarea {
 }
 
 .article-textarea {
+  margin-left: -10px;
   background: transparent;
   border: none;
   outline: none;
@@ -261,6 +281,7 @@ input, textarea {
 }
 
 .article-titlearea {
+  margin-left: -10px;
   background: transparent;
   border: none;
   outline: none;

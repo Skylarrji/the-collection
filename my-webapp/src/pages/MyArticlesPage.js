@@ -1,14 +1,14 @@
 import ArticlesList from '../components/ArticlesList';
 import articles from './article-content';
 
-const ArticlesListPage = () => {
+const MyArticlesPage = () => {
     return (
         <>
         <h1>Articles</h1>
-        <ArticlesList articles={articles} isMyArticles={false} />
+        <ArticlesList articles={articles} isMyArticles={true} />
         <div className="margin-div"></div>
         </>
     );
 }
 
-export default ArticlesListPage;
+export default MyArticlesPage;
