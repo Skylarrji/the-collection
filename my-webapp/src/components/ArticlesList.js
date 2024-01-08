@@ -35,13 +35,13 @@ const ArticlesList = ({articles, isMyArticles}) => { /* pass in articles as a pr
     return (
         <>
         {articlesInfo.length === 0 ? <h4>Write an article to fill this place up!</h4> : <></>}
-        {articlesInfo.map(article => (
+        {articlesInfo.slice().reverse().map(article => (
             <>
             <Link key={article.name} className="article-list-item" to={`/articles/${article._id}`}> {/* use backticks and ${ } to convert a variable value to a string; you also need a unique key when displaying listed items using map in react */}
                 <h3>{article.title}</h3>
                 {!isMyArticles ? <h4>Written by {article.postedBy}</h4> : <> </>} 
                 <p>{article.content.substring(0, 150)}...</p> {/* preview of first 150 chars of the first paragraph of the article */}
-                
+
                 <div className="article-parent-container">
                 <p className="article-child-container">{article.upvotes} {article.upvotes === 1 ? "Upvote" : "Upvotes"} </p>
                 <p className="article-child-container">{article.comments.length} {article.comments.length === 1 ? "Comment" : "Comments"} </p>
@@ -55,7 +55,6 @@ const ArticlesList = ({articles, isMyArticles}) => { /* pass in articles as a pr
             </div>
             <hr></hr>
             </>
-        
 
         ))}
         </>

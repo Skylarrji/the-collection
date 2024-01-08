@@ -39,10 +39,29 @@ Enter the following commands:
 3. Feel free to create your own articles or interact with the community by upvoting and commenting.
 
 # Photos 📷
-![Home Page](image.png)
-![Article Creation Page](image-1.png)
-![Articles Page](image-2.png)
-![Article Page](image-3.png)
+| ![Home Page](image-4.png) |
+|:--:| 
+| *Home Page* |
+
+| ![My Articles Page](image-5.png) |
+|:--:| 
+| *My Articles Page* |
+
+| ![Article Drafting Page](image.png) |
+|:--:| 
+| *Article Drafting Page* |
+
+| ![Article Editing Page](image-3.png) |
+|:--:| 
+| *Article Editing Page* |
+
+| ![Articles Page](image-1.png) |
+|:--:| 
+| *Articles Page* |
+
+| ![Article Viewing](image-2.png) |
+|:--:| 
+| *Article Viewing* |
 
 # Project Status 🚧
 This project is currently in development, so stay tuned for new features!
