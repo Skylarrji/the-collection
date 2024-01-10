@@ -14,13 +14,18 @@ const AddArticleForm = () => {
 
     const titleURL = title.replace(/\s+/g, '-');
 
+    const tags = await axios.post(`/api/get-article-tags`, {
+      text: text
+    });
+
     await axios.post(`/api/add-article`, { // adds the submitted article to the database
         name: titleURL,
         upvotes: 0,
         comments: [],
         upvoteIds: [],
         content: text,
-        title: title
+        title: title,
+        tags: tags.data
     }, { 
         headers, 
     });

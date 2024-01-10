@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import useUser from '../hooks/useUser';
 import { useState, useEffect } from 'react'; // state allows react to store results of requests from the server
+import Tags from './Tags';
 
 const ArticlesList = ({articles, isMyArticles}) => { /* pass in articles as a prop to the reusable component*/
     const [articlesInfo, setArticlesInfo] = useState([]); // all articles
@@ -42,6 +43,7 @@ const ArticlesList = ({articles, isMyArticles}) => { /* pass in articles as a pr
                 {!isMyArticles ? <h4>Written by {article.postedBy}</h4> : <> </>} 
                 <p>{article.content.substring(0, 150)}...</p> {/* preview of first 150 chars of the first paragraph of the article */}
 
+                <Tags tags={article.tags}></Tags>
                 <div className="article-parent-container">
                 <p className="article-child-container">{article.upvotes} {article.upvotes === 1 ? "Upvote" : "Upvotes"} </p>
                 <p className="article-child-container">{article.comments.length} {article.comments.length === 1 ? "Comment" : "Comments"} </p>

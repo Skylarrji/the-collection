@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import axios from 'axios';
+import querystring from 'querystring';
 import admin from 'firebase-admin';
 import express from 'express';
 import 'dotenv/config';
@@ -170,7 +172,7 @@ app.post('/api/articles/:articleId/comments', async (req, res) => {
 
 // add new article endpoint
 app.post('/api/add-article', async (req, res) => {
-    const { name, upvotes, comments, upvoteIds, content, title } = req.body;
+    const { name, upvotes, comments, upvoteIds, content, title, tags } = req.body;
     const { email } = req.user;
     await db.collection('articles').insertOne( {
         postedBy: email,
@@ -179,21 +181,55 @@ app.post('/api/add-article', async (req, res) => {
         comments: comments,
         upvoteIds: upvoteIds,
         content: content,
-        title: title
+        title: title,
+        tags: tags
     } );
     res.json("article succesfully added");
 });
 
+
+// add article tags endpoint
+app.post('/api/get-article-tags', async (req, res) => {
+    const { text } = req.body;
+
+    const formData = querystring.stringify({
+        text: text,
+        extractors: 'topics'
+    });
+
+    const response = await axios.post('https://api.textrazor.com/',
+        formData,
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-TextRazor-Key': 'e442cf0026efb56b314e0cfa5debe03207d649bb0456097a331dfd8f', // Replace with your actual API key
+            }
+        }
+      );
+    
+    const topics = response.data.response.topics;
+    if (topics !== undefined) {
+        const tags = topics.slice(0, 3).map(topic => topic.label); // extracts top 3 topics associated w the article
+        res.json(tags);
+    }
+
+    else {
+        const tags = [];
+        res.json(tags);
+    }
+});
+
+
 // edit an existing article endpoint
 app.put('/api/edit-article/:articleId', async (req, res) => {
     const { email } = req.user;
-    const { content, title } = req.body;
+    const { content, title, tags } = req.body;
     const { articleId } = req.params;
     const article = await db.collection('articles').findOne({ _id: new ObjectId(articleId) });
 
     if (article.postedBy === email) { // can only edit if the user is the owner of the article
         await db.collection('articles').updateOne({ _id: new ObjectId(articleId) }, {
-            $set: { content: content, title: title  },
+            $set: { content: content, title: title, tags: tags  },
         });
 
         res.json("article successfully modified");

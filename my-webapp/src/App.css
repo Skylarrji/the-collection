@@ -342,4 +342,12 @@ input, textarea {
   max-width: 750px; 
 }
 
+.tag {
+  display: inline-block;
+  margin-right: 8px; /* Adjust the margin as needed for spacing between tags */
+  background-color: #be91ad;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 10px;
+}
 

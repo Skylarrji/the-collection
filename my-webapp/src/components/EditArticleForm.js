@@ -12,11 +12,14 @@ const EditArticleForm = ({ articleInfo }) => {
     const token = user && await user.getIdToken(); // gets the user's auth id if it exists, token = null if the user's auth id doesn't exist
     const headers = token ? { authtoken: token } : {}; // sets headers to an empty object if the token is null
 
-    const titleURL = title.replace(/\s+/g, '-');
+    const tags = await axios.post(`/api/get-article-tags`, {
+      text: text
+    });
 
     await axios.put(`/api/edit-article/${articleInfo._id}`, { // edit the article in the database
         content: text,
-        title: title
+        title: title,
+        tags: tags.data
     }, { 
         headers, 
     });

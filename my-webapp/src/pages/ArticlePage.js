@@ -6,9 +6,10 @@ import CommentsList from '../components/CommentsList';
 import AddCommentForm from '../components/AddCommentForm';
 import useUser from '../hooks/useUser';
 import articles from './article-content';
+import Tags from '../components/Tags';
 
 const ArticlePage = () => {
-    const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [], canUpvote: false }); // sets the default state for the component as well as its associated properties
+    const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [], tags: [], canUpvote: false }); // sets the default state for the component as well as its associated properties
     const { canUpvote } = articleInfo; 
     const { articleId } = useParams(); /* stores URL parameter as articleId */
 
@@ -67,6 +68,7 @@ const ArticlePage = () => {
         <> {/* need <> </> around everything if you need to return several element tags in react (e.g. <h1> and <p> tags) */}
         <h1>{articleInfo.title}</h1>
         <p><strong>Written by {articleInfo.postedBy}</strong></p>
+        <Tags tags={articleInfo.tags}></Tags>
         <div className="upvotes-section">
             <p>This article has {articleInfo.upvotes} upvote(s)!</p>
             {user ? 
