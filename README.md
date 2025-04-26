@@ -29,6 +29,11 @@ Got CORS errors when calling TextRazor directly from the frontend.
 API data sometimes appeared out of sync with frontend rendering, leading to missing or duplicated articles.  
 **Solution:** Improved use of `useEffect` hooks with correct dependency arrays and introduced explicit loading states.
 
+## Usage 💻
+1. [Visit this website.](the-collection-m5s0.onrender.com/)
+2. Sign up or log in to start exploring and sharing articles!
+3. Feel free to create your own articles or interact with the community by upvoting and commenting.
+
 ## Installation 📋
 To run The Collection locally, first, clone this repository using [this HTTP link.](https://github.com/Skylarrji/the-collection.git)
 
@@ -45,11 +50,6 @@ Enter the following commands:
 - `cd my-webapp-backend` 
 - `npm i` 
 - `npm run dev`
-
-## Usage 💻
-1. [Visit this website.](the-collection-m5s0.onrender.com/)
-2. Sign up or log in to start exploring and sharing articles!
-3. Feel free to create your own articles or interact with the community by upvoting and commenting.
 
 ## Photos 📷
 | ![Home Page](image-4.png) |
